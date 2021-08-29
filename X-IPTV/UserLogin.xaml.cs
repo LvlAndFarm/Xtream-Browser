@@ -47,7 +47,11 @@ namespace X_IPTV
         private async Task Connect(string user, string pass, string server, string port)
         {
             // Create a request for the URL. 		
-            WebRequest request = WebRequest.Create($"http://{server}:{port}/player_api.php?username={user}&password={pass}");
+            WebRequest request;
+            if ((bool)protocolCheckBox.IsChecked)//use the https protocol
+                request = WebRequest.Create($"https://{server}:{port}/player_api.php?username={user}&password={pass}");
+            else//use the http protocol
+                request = WebRequest.Create($"http://{server}:{port}/player_api.php?username={user}&password={pass}");
             // If required by the server, set the credentials.
             request.Credentials = CredentialCache.DefaultCredentials;
             // Get the response.
@@ -75,8 +79,12 @@ namespace X_IPTV
 
         private async Task LoadChannels(string user, string pass, string server, string port)
         {
-            // Create a request for the URL. 		
-            WebRequest request = WebRequest.Create($"http://{server}:{port}/player_api.php?username={user}&password={pass}&action=get_live_streams");
+            // Create a request for the URL. 	
+            WebRequest request;
+            if ((bool)protocolCheckBox.IsChecked)//use the https protocol
+                request = WebRequest.Create($"https://{server}:{port}/player_api.php?username={user}&password={pass}&action=get_live_streams");
+            else//use the http protocol
+                request = WebRequest.Create($"http://{server}:{port}/player_api.php?username={user}&password={pass}&action=get_live_streams");
             // If required by the server, set the credentials.
             request.Credentials = CredentialCache.DefaultCredentials;
             // Get the response.
