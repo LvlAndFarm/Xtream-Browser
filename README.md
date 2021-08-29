@@ -4,3 +4,4 @@
 
 Requirements
 - [Microsoft .NET Framework 4.8](https://dotnet.microsoft.com/download/dotnet-framework/net48)
+- [VLC Media Player](https://www.videolan.org/vlc/)
