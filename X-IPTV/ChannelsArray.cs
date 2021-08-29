@@ -29,4 +29,12 @@ namespace X_IPTV
         public object tv_archive_duration { get; set; }
     }
 
+    public class PlaylistData
+    {
+        public string xui_id { get; set; }
+        public string stream_url { get; set; }
+        /*public string tvg_name { get; set; }
+        public string tvg_logo { get; set; }
+        public string group_title { get; set; }*/
+    }
 }

@@ -11,5 +11,9 @@ namespace X_IPTV
         public static PlayerInfo PlayerInfo = null;
 
         public static ChannelEntry[] ChannelsArray = null;
+
+        //public static PlaylistData[] PlaylistArray = null;
+
+        public static Dictionary<string, PlaylistData> playlistDataMap = null;
     }
 }

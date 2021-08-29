@@ -27,10 +27,10 @@ xmlns:xctw="clr-namespace:Xceed.Wpf.Toolkit.Themes.Windows10;assembly=Xceed.Wpf.
         <Label Content="Password:" HorizontalAlignment="Left" Margin="267,146,0,0" VerticalAlignment="Top"/>
         <Label Content="Server:" HorizontalAlignment="Left" Margin="267,176,0,0" VerticalAlignment="Top"/>
         <Label Content="Port:" HorizontalAlignment="Left" Margin="267,207,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="usrTxt" HorizontalAlignment="Left" Height="23" Margin="363,119,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="passTxt" HorizontalAlignment="Left" Height="23" Margin="363,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="serverTxt" HorizontalAlignment="Left" Height="23" Margin="363,180,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="portTxt" HorizontalAlignment="Left" Height="23" Margin="363,211,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="usrTxt" HorizontalAlignment="Left" Height="23" Margin="363,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="passTxt" HorizontalAlignment="Left" Height="23" Margin="363,150,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="serverTxt" HorizontalAlignment="Left" Height="23" Margin="363,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="portTxt" HorizontalAlignment="Left" Height="23" Margin="363,211,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="con_btn" Content="Connect" HorizontalAlignment="Left" Margin="301,270,0,0" VerticalAlignment="Top" Width="143" Height="25" Click="Con_btn_Click"/>
         <xc:BusyIndicator x:Name="busy_ind" IsBusy="False" BusyContent="Authenticating...">
             <CheckBox x:Name="protocolCheckBox" Content="HTTPS" HorizontalAlignment="Left" Height="20" Margin="495,185,0,0" VerticalAlignment="Top" Width="90" ToolTip="HTTP will be used by default if not checked"/>

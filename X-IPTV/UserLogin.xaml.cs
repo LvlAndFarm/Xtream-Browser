@@ -3,17 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace X_IPTV
 {
@@ -38,6 +33,11 @@ namespace X_IPTV
             await LoadChannels(usrTxt.Text, passTxt.Text, serverTxt.Text, portTxt.Text);
 
             var channelWindow = new ChannelList();
+
+            //load epg. Eventually make it optional
+            busy_ind.BusyContent = "Loading playlist data...";
+
+            await LoadPlaylistData(usrTxt.Text, passTxt.Text, serverTxt.Text, portTxt.Text);
 
             channelWindow.Show();
 
@@ -108,6 +108,46 @@ namespace X_IPTV
             reader.Close();
             dataStream.Close();
             response.Close();
+        }
+
+        private static readonly HttpClient client = new HttpClient();
+        private async Task LoadPlaylistData(string user, string pass, string server, string port)
+        {
+            //retrieve playlist data from client
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36");
+
+            var stringTask = client.GetStringAsync($"https://{server}:{port}/get.php?username={user}&password={pass}");
+
+            var msg = await stringTask;
+            //Console.Write(msg);
+
+            //parse the m3u playlist and split into an array
+            string[] playlist = msg.Split(new string[] { "#EXTINF:" }, StringSplitOptions.None);
+
+            //needs cleaned up
+            PlaylistData[] info = new PlaylistData[Instance.ChannelsArray.Length];
+            int index = -1;
+            Instance.playlistDataMap = new Dictionary<string, PlaylistData>();
+            foreach (var channel in playlist)
+            {
+                //Console.WriteLine($"#EXTINF:{channel}");
+                if (index > -1)
+                {
+                    //eventually fix this, make the split better and use all of the data in the PlaylistData class
+                    string[] splitArr = channel.Split(' ');
+                    string xui_id = "";
+                    foreach (Match match in Regex.Matches(splitArr[1], "\"([^\"]*)\""))
+                        xui_id = match.ToString().Replace("\"", "");
+                    info[index] = new PlaylistData { 
+                        xui_id = xui_id,
+                        stream_url = channel.Substring(channel.LastIndexOf("https"))
+                    };
+                    Instance.playlistDataMap.Add(info[index].xui_id, info[index]);
+                }
+                index++;
+            }
+            Console.WriteLine("Done.");
         }
     }
 }
