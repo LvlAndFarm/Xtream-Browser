@@ -24,18 +24,18 @@ namespace X_IPTV
 
         private async void Con_btn_Click(object sender, RoutedEventArgs e)
         {
-            busy_ind.IsBusy = true;
+            //busy_ind.IsBusy = true;
 
             await Connect(usrTxt.Text, passTxt.Text, serverTxt.Text, portTxt.Text);
 
-            busy_ind.BusyContent = "Loading channels list...";
+            //busy_ind.BusyContent = "Loading channels list...";
 
             await LoadChannels(usrTxt.Text, passTxt.Text, serverTxt.Text, portTxt.Text);
 
             var channelWindow = new ChannelList();
 
             //load epg. Eventually make it optional
-            busy_ind.BusyContent = "Loading playlist data...";
+            //busy_ind.BusyContent = "Loading playlist data...";
 
             await LoadPlaylistData(usrTxt.Text, passTxt.Text, serverTxt.Text, portTxt.Text);
 
