@@ -7,17 +7,7 @@
         mc:Ignorable="d"
         Title="UserLogin" Height="450" Width="800">
     <Window.Resources>
-        <!--<ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
 
-                --><!-- Core Controls --><!--
-                <xcw:Windows10ResourceDictionary />
-
-                --><!-- Toolkit Controls --><!--
-                <xctw:Windows10ResourceDictionary />
-
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>-->
     </Window.Resources>
     <Grid>
         <Label Content="Username:" HorizontalAlignment="Left" Margin="267,115,0,0" VerticalAlignment="Top"/>
