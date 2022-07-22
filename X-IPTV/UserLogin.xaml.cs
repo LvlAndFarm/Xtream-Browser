@@ -9,35 +9,58 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Reflection;
 
 namespace X_IPTV
 {
     /// <summary>
     /// Interaction logic for UserLogin.xaml
     /// </summary>
+    /// 
     public partial class UserLogin : Window
     {
+        //TODO: read file when user is selected and load data.
+        //Add a Load user button
+        private static UserDataSaver _currentUser = new UserDataSaver();
+        private static string assemblyFolder;
+        private static string saveDir;
         public UserLogin()
         {
             InitializeComponent();
+            assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            saveDir = assemblyFolder + @"\Users";
+            loadUsersFromDirectory();
+        }
+
+        private void loadUsersFromDirectory()
+        {
+            //string assemblyFolder = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            //string saveDir = assemblyFolder + @"\Users";
+            DirectoryInfo DI = new DirectoryInfo(saveDir);
+            FileInfo[] files = DI.GetFiles("*.txt");
+            //Read files from dir
+            foreach (var file in files)
+            {
+                UsercomboBox.Items.Add(file.Name.Remove(file.Name.IndexOf('.')));
+            }
         }
 
         private async void Con_btn_Click(object sender, RoutedEventArgs e)
         {
             busy_ind.IsBusy = true;
 
-            await Connect(usrTxt.Text, passTxt.Text, serverTxt.Text, portTxt.Text);
+            await Connect(usrTxt.Text, passTxt.Text, serverTxt.Text, portTxt.Text);//Connect to the server
 
             busy_ind.BusyContent = "Loading channels list...";
 
-            await LoadChannels(usrTxt.Text, passTxt.Text, serverTxt.Text, portTxt.Text);
+            await LoadChannels(usrTxt.Text, passTxt.Text, serverTxt.Text, portTxt.Text);//Pull the data from the server
 
             var channelWindow = new ChannelList();
 
             //load epg. Eventually make it optional
             busy_ind.BusyContent = "Loading playlist data...";
 
-            await LoadPlaylistData(usrTxt.Text, passTxt.Text, serverTxt.Text, portTxt.Text);
+            await LoadPlaylistData(usrTxt.Text, passTxt.Text, serverTxt.Text, portTxt.Text);//Load epg it into the channels array
 
             channelWindow.Show();
 
@@ -148,6 +171,22 @@ namespace X_IPTV
                 index++;
             }
             Console.WriteLine("Done.");
+        }
+
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            UserDataSaver.User test1 = new UserDataSaver.User();
+            test1.UserName = "primetime43";
+            test1.Password = "abc1234";
+            test1.Server = "https://google.com";
+            test1.Port = 443;
+            _currentUser.SaveUserData(test1);
+        }
+
+        private void loadUserDataBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string selectedUser = UsercomboBox.SelectedValue.ToString();
+            _currentUser.GetUserData(selectedUser, saveDir + selectedUser + ".txt");
         }
     }
 }
